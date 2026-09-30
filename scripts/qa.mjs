@@ -1,10 +1,13 @@
 // QA: скріншоти на ключових ширинах + перевірки (горизонтальний скрол, консоль, шрифти, зображення,
 // меню, фільтри, лайтбокс). Запуск: npm run build && npx vite preview --port 4173 & node scripts/qa.mjs [url] [outDir]
 import { mkdir } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import puppeteer from 'puppeteer-core'
 
 const URL_ = process.argv[2] ?? 'http://localhost:4173/'
-const OUT = process.argv[3] ?? 'qa'
+// Скріншоти — у тимчасову системну папку, не в проєкт
+const OUT = process.argv[3] ?? join(tmpdir(), 'yeva-qa')
 const CHROME = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
 const VIEWPORTS = [
   { name: '320', width: 320, height: 640, mobile: true },
@@ -19,6 +22,7 @@ const VIEWPORTS = [
 const only = process.env.VP?.split(',')
 
 await mkdir(OUT, { recursive: true })
+console.log(`screenshots → ${OUT}`)
 const browser = await puppeteer.launch({ executablePath: CHROME, headless: true })
 let failed = false
 

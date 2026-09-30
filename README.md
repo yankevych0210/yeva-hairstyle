@@ -48,7 +48,7 @@ npm run dev        # http://localhost:5173
 | `npm run showreel` | Builds the hero showreel from video fragments listed in `scripts/showreel.mjs` |
 | `npm run brand` | Regenerates the logo, favicons, app icons and avatar in `assets/brand/` and `public/` |
 | `npm run og` | Regenerates the Open Graph image `public/og.jpg` (1200×630) |
-| `npm run qa` | Screenshots + checks in Chrome at 320–1440 px and landscape (needs a running `serve` or `preview`) |
+| `npm run qa` | Screenshots + checks in Chrome at 320–1440 px and landscape (needs a running `serve` or `preview`; screenshots go to the system temp folder) |
 | `npm run qa:webkit` | Safari/iPhone checks in WebKit: scroll lock, lightbox, HEVC video |
 
 `images` needs [`cwebp`](https://developers.google.com/speed/webp/download); `videos` and `showreel` need ffmpeg (`brew install ffmpeg`, or temporarily `npm i --no-save ffmpeg-static`). They are only used locally — Vercel builds from the committed, already-processed media.

@@ -1,11 +1,15 @@
 // WebKit (≈ Safari / iPhone): горизонтальний скрол, меню з блокуванням скролу, лайтбокс і відео.
 // Запуск: node scripts/qa-webkit.mjs [url] [outDir]
 import { mkdir } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { devices, webkit } from 'playwright'
 
 const URL_ = process.argv[2] ?? 'http://localhost:4173/'
-const OUT = process.argv[3] ?? 'qa'
+// Скріншоти — у тимчасову системну папку, не в проєкт
+const OUT = process.argv[3] ?? join(tmpdir(), 'yeva-qa')
 await mkdir(OUT, { recursive: true })
+console.log(`screenshots → ${OUT}`)
 const browser = await webkit.launch()
 let failed = false
 

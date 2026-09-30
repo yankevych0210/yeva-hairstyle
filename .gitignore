@@ -7,4 +7,3 @@ dist-ssr
 # Оригінали відео важкі (GitHub не приймає >100 МБ)
 assets/originals/video/*
 !assets/originals/video/.gitkeep
-qa/
