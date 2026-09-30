@@ -75,13 +75,15 @@ npm run dev        # http://localhost:5173
 │   ├── originals/            # source photos (videos are git-ignored — too large)
 │   ├── brand/                # logo (light/dark), mark, avatar for social profiles
 │   └── instagram/            # raw downloads from Instagram / Behold, for reference
-├── docs/CONTENT.md           # how to update texts, prices, photos and videos
+├── docs/
+│   ├── CONTENT.md            # how to update texts, prices, photos and videos
+│   └── TODO.md               # open tasks: data from Yeva, confirmations, settings
 └── vercel.json               # caching, security headers, CSP, clean URLs
 ```
 
 ## Updating content
 
-Everything visible on the site lives in **`src/data/siteData.ts`**. Missing data is marked with `TODO` — when a value is `null` or an empty list, the related block is hidden rather than showing placeholders. See **[docs/CONTENT.md](docs/CONTENT.md)** for step-by-step instructions (prices, contacts, new photos and videos, FAQ, reviews).
+Everything visible on the site lives in **`src/data/siteData.ts`**. Missing data is marked with `TODO` — when a value is `null` or an empty list, the related block is hidden rather than showing placeholders. See **[docs/CONTENT.md](docs/CONTENT.md)** for step-by-step instructions (prices, contacts, new photos and videos, FAQ, reviews) and **[docs/TODO.md](docs/TODO.md)** for what is still missing.
 
 ## Deployment
 
