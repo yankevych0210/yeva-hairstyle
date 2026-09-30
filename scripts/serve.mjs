@@ -21,7 +21,7 @@ http
     const url = decodeURIComponent(req.url.split('?')[0])
     let file = normalize(join(root, url === '/' ? 'index.html' : url))
     if (!file.startsWith(root)) return res.writeHead(403).end()
-    if (!existsSync(file) && existsSync(`${file}.html`)) file = `${file}.html` // cleanUrls
+    if (config.cleanUrls && !existsSync(file) && existsSync(`${file}.html`)) file = `${file}.html`
     let status = 200
     if (!existsSync(file) || statSync(file).isDirectory()) {
       file = join(root, '404.html')

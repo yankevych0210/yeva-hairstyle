@@ -62,4 +62,8 @@ Shows the latest posts from the Behold feed (`beholdFeedUrl`). The number of pos
 
 ## Domain
 
-After connecting a custom domain in Vercel, change `siteUrl` in `siteData.ts`. Canonical URL, Open Graph, `robots.txt`, `sitemap.xml` and structured data follow it. Then add the domain in Google Search Console, put the verification code into `seo.verification.google` and submit `/sitemap.xml`.
+After connecting a custom domain in Vercel, change `siteUrl` in `siteData.ts`. Canonical URL, Open Graph, `robots.txt`, `sitemap.xml` and structured data follow it. Then add the domain in Google Search Console and submit `/sitemap.xml`.
+
+## Search Console verification
+
+`https://yeva-hairstyle.vercel.app/` is verified with the HTML file `public/google8b674a126c65c54a.html` — **do not delete it**, or verification is lost. For a new domain, either verify it with a new file from Search Console (put it into `public/`) or use the meta tag: set `seo.verification.google`.
