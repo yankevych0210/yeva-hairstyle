@@ -1,0 +1,14 @@
+/* TEAM */
+Hair stylist: Єва (Yeva)
+Instagram: @yeva.hairstyle
+Location: Кременчук, Україна
+
+Makeup (образи в 4 руки): @nikusha.mua
+
+Design & development: SetBox
+
+/* SITE */
+Language: Ukrainian
+Standards: HTML5, CSS3, WAI-ARIA
+Components: React, Vite, TypeScript, Tailwind CSS
+Fonts: Cormorant Garamond, Manrope (self-hosted, Fontsource)

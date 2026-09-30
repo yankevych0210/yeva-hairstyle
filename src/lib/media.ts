@@ -20,6 +20,7 @@ export function imageSrc(name: string, w: (typeof IMAGE_WIDTHS)[number]) {
   return `/images/${name}-${w}.webp`
 }
 
-export function imageSrcSet(name: string) {
-  return IMAGE_WIDTHS.map((w) => `${imageSrc(name, w)} ${w}w`).join(', ')
+/** Дескриптор — реальна ширина файлу: оригінал вужчий за 960 не збільшується */
+export function imageSrcSet(img: ImageAsset) {
+  return IMAGE_WIDTHS.map((w) => `${imageSrc(img.name, w)} ${Math.min(w, img.width)}w`).join(', ')
 }

@@ -17,6 +17,7 @@ let lastY = 0
 let lastT = 0
 let velocity = 0
 let raf = 0
+let idle = 0
 
 function show(el: HTMLElement, fast: boolean) {
   el.classList.add('is-in')
@@ -39,6 +40,20 @@ function check() {
   }
 }
 
+/**
+ * Після зупинки скролу — обхід усіх ще прихованих елементів. Потрібен, бо при різкому свайпі на
+ * повільному пристрої елемент може «перестрибнути» екран між кадрами: для IntersectionObserver
+ * стан не змінився (не перетинався → не перетинається), і подія не приходить.
+ */
+function sweep() {
+  const vh = window.innerHeight
+  document.querySelectorAll<HTMLElement>('[data-reveal]:not(.is-in)').forEach((el) => {
+    const r = el.getBoundingClientRect()
+    if (r.bottom <= 0) show(el, true)
+    else if (r.top < vh && r.bottom > 0) show(el, false)
+  })
+}
+
 function schedule() {
   if (!raf) raf = requestAnimationFrame(check)
 }
@@ -56,6 +71,13 @@ function onScroll(e: Event) {
   lastY = y
   lastT = t
   schedule()
+  // Страховка: коли скрол зупинився — швидкість 0 і ще одна перевірка всього, що в кадрі
+  clearTimeout(idle)
+  idle = window.setTimeout(() => {
+    velocity = 0
+    sweep()
+    schedule()
+  }, 160)
 }
 
 function observe(el: Element) {

@@ -1,0 +1,51 @@
+/* Сторінка 404 — окремий вхід Vite, ті самі self-hosted шрифти й токени, що й на сайті */
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/manrope/wght.css';
+
+:root {
+  --dark: #221e1b;
+  --on-dark: #f3ebe1;
+  --on-dark-soft: #bfb3a6;
+  --sand: #e4d6c6;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: max(24px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+  background: var(--dark);
+  color: var(--on-dark);
+  font: 16px/1.6 'Manrope Variable', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-align: center;
+}
+main { max-width: 34rem; animation: rise 0.9s var(--ease) both; }
+.mark { display: inline-flex; min-width: 44px; min-height: 44px; }
+.mark svg { height: 64px; width: auto; }
+.code { margin-top: 28px; font: italic 500 1.25rem 'Cormorant Garamond', Georgia, serif; color: var(--on-dark-soft); letter-spacing: 0.2em; }
+h1 { margin-top: 8px; font: 500 clamp(2.6rem, 9vw, 4.5rem)/1 'Cormorant Garamond', Georgia, serif; letter-spacing: -0.015em; }
+h1 em { color: var(--sand); }
+.lead { margin: 20px auto 0; max-width: 26rem; color: var(--on-dark-soft); }
+.actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px;
+  border-radius: 999px; font-weight: 600; font-size: 0.9375rem; text-decoration: none;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s var(--ease);
+  touch-action: manipulation;
+}
+.btn:active { transform: scale(0.97); }
+.primary { background: var(--on-dark); color: var(--dark); }
+.ghost { border: 1px solid rgb(243 235 225 / 0.3); color: var(--on-dark); }
+@media (hover: hover) {
+  .primary:hover { background: var(--sand); }
+  .ghost:hover { background: var(--on-dark); color: var(--dark); }
+}
+:focus-visible { outline: 2px solid var(--on-dark); outline-offset: 3px; border-radius: 6px; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { main { animation: none; } }

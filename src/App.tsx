@@ -3,6 +3,7 @@ import { initReveal } from './lib/reveal'
 import { visible } from './lib/sections'
 import { About } from './components/About'
 import { Booking } from './components/Booking'
+import { Duo } from './components/Duo'
 import { Faq } from './components/Faq'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
@@ -30,6 +31,7 @@ export default function App() {
         <Marquee />
         <About />
         {visible.services && <Services />}
+        {visible.duo && <Duo />}
         <Works />
         {visible.prices && <Prices />}
         {visible.reviews && <Reviews />}

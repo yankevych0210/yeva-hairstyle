@@ -5,21 +5,14 @@ import { execFileSync } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, readdir, stat, writeFile } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
-import ffmpegStatic from 'ffmpeg-static'
+import { findFfmpeg } from './ffmpeg.mjs'
 
 const SRC = 'assets/originals/video'
 const OUT = 'public/videos'
 const MANIFEST = 'src/data/media.gen.json'
 const force = process.argv.includes('--force')
 
-const which = (bin) => {
-  try {
-    return execFileSync('which', [bin], { encoding: 'utf8' }).trim()
-  } catch {
-    return null
-  }
-}
-const FFMPEG = which('ffmpeg') ?? ffmpegStatic
+const FFMPEG = await findFfmpeg()
 const ffprobe = (file) => {
   // ffprobe може не бути — беремо параметри з виводу ffmpeg -i
   let out = ''
@@ -30,11 +23,12 @@ const ffprobe = (file) => {
   }
   const [, w, h] = out.match(/Video:.*?(\d{2,5})x(\d{2,5})/) ?? []
   const [, hh, mm, ss] = out.match(/Duration: (\d+):(\d+):([\d.]+)/) ?? []
+  const created = out.match(/creation_time\s*:\s*(\d{4}-\d{2}-\d{2})/)?.[1] ?? null
   const rotate = Number(out.match(/rotation of (-?[\d.]+)/)?.[1] ?? out.match(/rotate\s*:\s*(-?\d+)/)?.[1] ?? 0)
   let width = Number(w)
   let height = Number(h)
   if (Math.abs(rotate) % 180 === 90) [width, height] = [height, width]
-  return { width, height, duration: Number(hh) * 3600 + Number(mm) * 60 + Number(ss) }
+  return { width, height, created, duration: Number(hh) * 3600 + Number(mm) * 60 + Number(ss) }
 }
 
 const manifest = JSON.parse(await readFile(MANIFEST, 'utf8'))
@@ -78,7 +72,8 @@ for (const file of files) {
     hevc,
     h264,
     poster,
-    uploadDate: (await stat(input)).mtime.toISOString().slice(0, 10),
+    // Дата зйомки з метаданих, інакше — дата файлу
+    uploadDate: src.created ?? (await stat(input)).mtime.toISOString().slice(0, 10),
   }
   console.log(`✓ ${name} ${out.width}×${out.height}, ${out.duration.toFixed(1)} с`)
 }

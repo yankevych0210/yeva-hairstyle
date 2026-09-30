@@ -34,6 +34,7 @@ export interface NavItem {
 export type SectionId =
   | 'about'
   | 'services'
+  | 'duo'
   | 'works'
   | 'prices'
   | 'reviews'
@@ -56,8 +57,10 @@ export interface Service {
   duration: string | null
   /** Показувати на сайті. Вимикайте послуги, яких немає */
   enabled: boolean
-  /** Ключове слово для картки-плейсхолдера / фото */
+  /** Фото картки (ім'я в media.gen.json) */
   image?: string
+  /** Виділена картка (темна) */
+  featured?: boolean
 }
 
 export interface PriceNote {
@@ -78,6 +81,12 @@ export interface Work {
   media: string
   kind: 'photo' | 'video'
   alt: string
+  /** Команда зйомки: модель, макіяж, відео (з підпису в Instagram) */
+  credit?: string
+  /** Пост в Instagram */
+  instagram?: string
+  /** Образ у 4 руки (зачіска + макіяж з візажисткою) */
+  duo?: boolean
 }
 
 export interface Review {

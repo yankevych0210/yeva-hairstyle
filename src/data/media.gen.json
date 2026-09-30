@@ -1,1 +1,130 @@
-{ "images": {}, "videos": {} }
+{
+  "images": {
+    "curls": {
+      "width": 960,
+      "height": 960
+    },
+    "high-bun-poster": {
+      "width": 960,
+      "height": 1707
+    },
+    "long-waves-1": {
+      "width": 960,
+      "height": 960
+    },
+    "long-waves-2": {
+      "width": 960,
+      "height": 960
+    },
+    "long-waves-3": {
+      "width": 960,
+      "height": 960
+    },
+    "low-bun": {
+      "width": 960,
+      "height": 1703
+    },
+    "street": {
+      "width": 960,
+      "height": 1692
+    },
+    "trench-poster": {
+      "width": 960,
+      "height": 1692
+    },
+    "waves": {
+      "width": 720,
+      "height": 1280
+    },
+    "duo-ponytail-poster": {
+      "width": 960,
+      "height": 1707
+    },
+    "half-up-waves-1": {
+      "width": 960,
+      "height": 1205
+    },
+    "half-up-waves-2": {
+      "width": 960,
+      "height": 1204
+    },
+    "half-up-waves-3": {
+      "width": 960,
+      "height": 1205
+    },
+    "messy-updo-1": {
+      "width": 960,
+      "height": 1280
+    },
+    "messy-updo-2": {
+      "width": 960,
+      "height": 1280
+    },
+    "showreel-poster": {
+      "width": 720,
+      "height": 1280
+    },
+    "sleek-1": {
+      "width": 960,
+      "height": 1280
+    },
+    "sleek-2": {
+      "width": 960,
+      "height": 1280
+    },
+    "sleek-3": {
+      "width": 960,
+      "height": 1280
+    },
+    "sleek-4": {
+      "width": 960,
+      "height": 1280
+    },
+    "transformation-poster": {
+      "width": 720,
+      "height": 1280
+    },
+    "updo-collage": {
+      "width": 960,
+      "height": 960
+    }
+  },
+  "videos": {
+    "high-bun": {
+      "width": 720,
+      "height": 1280,
+      "duration": 10.1,
+      "hevc": "high-bun-hevc.mp4",
+      "h264": "high-bun-h264.mp4",
+      "poster": "high-bun-poster",
+      "uploadDate": "2026-09-03"
+    },
+    "trench": {
+      "width": 1080,
+      "height": 1920,
+      "duration": 62.3,
+      "hevc": "trench-hevc.mp4",
+      "h264": "trench-h264.mp4",
+      "poster": "trench-poster",
+      "uploadDate": "2026-09-27"
+    },
+    "duo-ponytail": {
+      "width": 720,
+      "height": 1280,
+      "duration": 8.9,
+      "hevc": "duo-ponytail-hevc.mp4",
+      "h264": "duo-ponytail-h264.mp4",
+      "poster": "duo-ponytail-poster",
+      "uploadDate": "2026-09-02"
+    },
+    "transformation": {
+      "width": 720,
+      "height": 1280,
+      "duration": 10.2,
+      "hevc": "transformation-hevc.mp4",
+      "h264": "transformation-h264.mp4",
+      "poster": "transformation-poster",
+      "uploadDate": "2026-08-07"
+    }
+  }
+}

@@ -20,7 +20,10 @@ export function buildJsonLd() {
     name: brand.name,
     description: seo.description,
     url: `${siteUrl}/`,
-    image: abs(seo.ogImage),
+    image: [
+      abs(seo.ogImage),
+      ...works.filter((w) => w.kind === 'photo' && m.images[w.media]).map((w) => abs(`/images/${w.media}-960.webp`)),
+    ],
     logo: abs('/icon-512.png'),
     sameAs,
     areaServed: { '@type': 'City', name: location.city },
@@ -57,7 +60,9 @@ export function buildJsonLd() {
     '@type': 'Person',
     '@id': `${siteUrl}/#person`,
     name: brand.master,
-    jobTitle: 'Майстриня зачісок і укладань',
+    jobTitle: brand.role,
+    knowsAbout: ['Зачіски', 'Укладання волосся', 'Хвилі та локони', 'Голлівудська хвиля', 'Зібрані зачіски', 'Гладкий хвіст', 'Образ у 4 руки'],
+    address: { '@type': 'PostalAddress', addressLocality: location.city, addressCountry: 'UA' },
     worksFor: { '@id': `${siteUrl}/#salon` },
     sameAs,
   }
@@ -68,6 +73,7 @@ export function buildJsonLd() {
     url: `${siteUrl}/`,
     name: brand.name,
     inLanguage: 'uk',
+    publisher: { '@id': `${siteUrl}/#salon` },
   }
 
   const videos = works
@@ -77,11 +83,14 @@ export function buildJsonLd() {
       return {
         '@type': 'VideoObject',
         name: w.title,
-        description: w.alt,
+        description: [w.alt, w.credit].filter(Boolean).join('. '),
         thumbnailUrl: abs(`/images/${v.poster}-960.webp`),
         contentUrl: abs(`/videos/${v.h264}`),
         uploadDate: v.uploadDate,
         duration: `PT${Math.round(v.duration)}S`,
+        width: v.width,
+        height: v.height,
+        inLanguage: 'uk',
       }
     })
 

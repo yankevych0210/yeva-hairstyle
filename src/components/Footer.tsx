@@ -5,15 +5,12 @@ import { Wordmark } from './Wordmark'
 
 export function Footer() {
   return (
-    <footer
-      className="on-dark bg-dark text-on-dark"
-      style={{ paddingBottom: 'max(28px, var(--safe-b))' }}
-    >
-      <div className="container-page grid gap-12 pt-16 md:grid-cols-12 md:pt-20">
+    <footer className="on-dark grain overflow-hidden bg-dark text-on-dark" style={{ paddingBottom: 'max(28px, var(--safe-b))' }}>
+      <div className="container-page grid gap-12 pt-16 md:grid-cols-12 md:pt-24">
         <div className="md:col-span-5">
           <Wordmark className="text-on-dark" />
-          <p className="mt-4 max-w-[22rem] text-[0.9375rem] leading-relaxed text-on-dark-soft">
-            Зачіски та укладання в Кременчуці.
+          <p className="mt-5 max-w-[22rem] text-[0.9375rem] leading-relaxed text-on-dark-soft">
+            {brand.role}. Зачіски та укладання в Кременчуці. Запис у Direct.
           </p>
         </div>
 
@@ -56,10 +53,18 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="container-page mt-14">
+      {/* Гігантський вордмарк */}
+      <p
+        aria-hidden="true"
+        className="pointer-events-none mt-10 select-none text-center font-serif text-[34vw] font-medium italic leading-[0.8] tracking-[-0.04em] text-on-dark/[0.07] md:text-[26vw] xl:text-[22rem]"
+      >
+        {brand.wordmark}
+      </p>
+
+      <div className="container-page mt-6">
         <div className="flex flex-col gap-2 border-t border-on-dark/15 pt-6 text-sm text-on-dark-soft sm:flex-row sm:justify-between">
           <p>
-          © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {brand.name}
+            © <span suppressHydrationWarning>{new Date().getFullYear()}</span> {brand.name}
           </p>
           <p>{brand.tagline}</p>
         </div>

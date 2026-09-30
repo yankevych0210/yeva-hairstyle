@@ -7,12 +7,19 @@ import { InstagramIcon } from './icons'
 import { Wordmark } from './Wordmark'
 
 export function Header() {
-  const [scrolled, setScrolled] = useState(false)
+  // top — прозора над hero; hero — темне скло над hero; page — кремове скло нижче
+  const [mode, setMode] = useState<'top' | 'hero' | 'page'>('top')
   const [open, setOpen] = useState(false)
   const burgerRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
+    const onScroll = () => {
+      const hero = document.getElementById('top')
+      const edge = (hero?.offsetHeight ?? 0) - 72
+      const y = Math.max(0, window.scrollY) // iOS: від'ємний scrollY при «гумовому» відскоку
+      // Активна з першого пікселя прокрутки
+      setMode(y <= 0 ? 'top' : y < edge ? 'hero' : 'page')
+    }
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -21,8 +28,12 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,backdrop-filter] duration-500 ease-soft ${
-          scrolled || open ? 'bg-bg/85 shadow-[0_1px_0_rgb(var(--c-line)/0.7)] backdrop-blur-md' : 'bg-transparent'
+        className={`fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,color] duration-500 ease-soft ${
+          mode === 'page'
+            ? 'bg-bg/85 text-ink shadow-[0_1px_0_rgb(var(--c-line)/0.7)] backdrop-blur-md'
+            : mode === 'hero'
+              ? 'on-dark bg-dark/60 text-on-dark backdrop-blur-md'
+              : 'on-dark bg-transparent text-on-dark'
         }`}
         style={{ paddingTop: 'var(--safe-t)' }}
       >
@@ -37,7 +48,7 @@ export function Header() {
                 <li key={n.id}>
                   <a
                     href={`#${n.id}`}
-                    className="relative flex min-h-[44px] items-center px-3.5 text-[0.9375rem] font-medium text-ink-soft transition-colors hover:text-ink"
+                    className="relative flex min-h-[44px] items-center px-3.5 text-[0.9375rem] font-medium opacity-75 transition-opacity hover:opacity-100"
                   >
                     {n.label}
                   </a>
@@ -60,8 +71,8 @@ export function Header() {
               onClick={() => setOpen(true)}
             >
               <span aria-hidden="true" className="flex w-6 flex-col gap-[7px]">
-                <span className="h-[1.5px] w-full rounded bg-ink" />
-                <span className="ml-auto h-[1.5px] w-4 rounded bg-ink" />
+                <span className="h-[1.5px] w-full rounded bg-current" />
+                <span className="ml-auto h-[1.5px] w-4 rounded bg-current" />
               </span>
             </button>
           </div>

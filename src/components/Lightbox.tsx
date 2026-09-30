@@ -4,6 +4,7 @@ import { contacts } from '../data/siteData'
 import { getImage, getVideo, imageSrc, imageSrcSet } from '../lib/media'
 import { useDialog } from '../lib/useDialog'
 import type { Work } from '../types'
+import { InstagramIcon } from './icons'
 import { PlaceholderArt } from './PlaceholderArt'
 
 interface Props {
@@ -121,7 +122,7 @@ export function Lightbox({ items, index, videoRef, triggerRef, soundBlocked, onU
           <img
             key={work.id}
             src={imageSrc(image.name, 960)}
-            srcSet={imageSrcSet(image.name)}
+            srcSet={imageSrcSet(image)}
             sizes="(min-width: 768px) 70vw, 100vw"
             width={image.width}
             height={image.height}
@@ -175,7 +176,21 @@ export function Lightbox({ items, index, videoRef, triggerRef, soundBlocked, onU
             {categoryLabel(work.category)}
           </p>
           <p className="truncate font-serif text-xl md:text-2xl">{work.title}</p>
+          {work.credit && (
+            <p className="line-clamp-2 text-xs leading-snug text-on-dark-soft [@media(max-height:500px)]:hidden">{work.credit}</p>
+          )}
         </div>
+        {work.instagram && (
+          <a
+            href={work.instagram}
+            target="_blank"
+            rel="noopener"
+            aria-label="Пост в Instagram"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-on-dark/20 transition-colors hover:bg-on-dark hover:text-dark sm:flex"
+          >
+            <InstagramIcon />
+          </a>
+        )}
         <a
           href={contacts.instagram.direct}
           target="_blank"

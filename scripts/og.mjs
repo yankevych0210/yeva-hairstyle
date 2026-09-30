@@ -11,9 +11,10 @@ const CHROME = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Conte
 const font = (f) => 'data:font/woff2;base64,' + require('node:fs').readFileSync(require.resolve(f)).toString('base64')
 const monogram = await readFile('assets/monogram.svg', 'utf8')
 
-const heroPath = 'public/images/hero-960.webp'
+// Фото для OG — hero з siteData (ім'я збігається з src/data/siteData.ts → hero.media)
+const heroPath = `public/images/${process.env.OG_IMAGE ?? 'waves'}-960.webp`
 const right = existsSync(heroPath)
-  ? `<img src="data:image/png;base64,${(await sharp(heroPath).png().toBuffer()).toString('base64')}" style="width:100%;height:100%;object-fit:cover">`
+  ? `<img src="data:image/png;base64,${(await sharp(heroPath).png().toBuffer()).toString('base64')}" style="width:100%;height:100%;object-fit:cover;object-position:50% 30%">`
   : (() => {
       let p = ''
       for (let i = 0; i < 30; i++) {

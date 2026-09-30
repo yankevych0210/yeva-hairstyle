@@ -1,4 +1,4 @@
-import { faq, nav, priceNotes, reviews, services } from '../data/siteData'
+import { faq, nav, priceNotes, reviews, services, works } from '../data/siteData'
 import type { SectionId } from '../types'
 
 export const activeServices = services.filter((s) => s.enabled)
@@ -9,6 +9,7 @@ export const answeredFaq = faq.filter((f): f is { q: string; a: string } => f.a 
 export const visible: Record<SectionId, boolean> = {
   about: true,
   services: activeServices.length > 0,
+  duo: works.some((w) => w.duo),
   works: true,
   prices: pricedServices.length > 0 || priceNotes.length > 0,
   reviews: reviews.length > 0,

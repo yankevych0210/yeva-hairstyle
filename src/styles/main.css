@@ -21,6 +21,7 @@
   --c-dark: 34 30 27;         /* #221E1B темні секції */
   --c-on-dark: 243 235 225;   /* #F3EBE1 */
   --c-on-dark-soft: 191 179 166; /* #BFB3A6 */
+  --mark-line: 156 107 94;     /* арка знака */
 
   --r-sm: 10px;
   --r-md: 18px;
@@ -92,6 +93,7 @@
     content: '';
     @apply block h-px w-8 bg-accent;
   }
+  .on-dark { --mark-line: 201 154 139; }
   .on-dark .eyebrow { @apply text-on-dark-soft; }
   .on-dark .eyebrow::before { @apply bg-on-dark-soft; }
 
@@ -102,6 +104,7 @@
   .on-dark .h2 em { @apply text-sand; }
 
   .lead { @apply text-[1.0625rem] leading-[1.7] text-ink-soft md:text-lg; }
+  .on-dark .lead { @apply text-on-dark/75; }
 
   /* Кнопки: мін. 48px висоти, активний стан для тапу, hover — лише для миші (hoverOnlyWhenSupported) */
   .btn {
@@ -210,3 +213,98 @@ html.js [data-reveal].is-in.reveal-fast { --reveal-dur: 440ms; --reveal-delay: 0
 }
 
 @keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Перша робота на всю ширину (мобільний) — праві колонки тепер непарні */
+@media (max-width: 1023px) {
+  .stagger-2:has(> .col-span-2:first-child) > [data-reveal]:nth-child(2n) { --reveal-delay: 0ms; }
+  .stagger-2:has(> .col-span-2:first-child) > [data-reveal]:nth-child(2n + 3) { --reveal-delay: 90ms; }
+}
+
+/* ============ Premium-шар ============ */
+
+/* Арки (як знак бренду): горизонтальний радіус 50%, вертикальний — під пропорцію.
+   У @layer utilities — щоб працювали варіанти Tailwind (lg:arch-9x16) */
+@layer utilities {
+  .arch-9x16 { border-radius: 50% 50% var(--r-md) var(--r-md) / 28.125% 28.125% var(--r-md) var(--r-md); }
+  .arch-3x4 { border-radius: 50% 50% var(--r-md) var(--r-md) / 37.5% 37.5% var(--r-md) var(--r-md); }
+  .arch-4x5 { border-radius: 50% 50% var(--r-md) var(--r-md) / 40% 40% var(--r-md) var(--r-md); }
+}
+
+/* Плівкове зерно на темних секціях */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.grain > :not(.fixed):not(.absolute) { position: relative; z-index: 2; }
+
+/* Reveal «шторкою» для фото: відкривається знизу вгору, фото всередині — легкий зум */
+html.js [data-reveal='clip']:not(.is-in) { opacity: 1; transform: none; clip-path: inset(22% 0 0 0); }
+html.js [data-reveal='clip'].is-in {
+  clip-path: inset(0);
+  transition: clip-path calc(var(--reveal-dur) * 1.8) var(--ease-out) var(--reveal-delay);
+}
+html.js [data-reveal='clip'] :is(img, svg) { transition: transform calc(var(--reveal-dur) * 2.2) var(--ease-out) var(--reveal-delay); }
+html.js [data-reveal='clip']:not(.is-in) :is(img, svg) { transform: scale(1.14); }
+html.js [data-reveal='clip'].reveal-fast { --reveal-dur: 360ms; }
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal='clip']:not(.is-in) { clip-path: none; }
+  html.js [data-reveal='clip']:not(.is-in) :is(img, svg) { transform: none; }
+}
+
+/* Обертовий бейдж */
+@keyframes spin { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin 22s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .spin-slow { animation: none; } }
+
+/* Підказка скролу */
+@keyframes scroll-cue { 0% { transform: translateY(-100%); } 60%, 100% { transform: translateY(100%); } }
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  animation: scroll-cue 2.2s var(--ease-soft) infinite;
+}
+@media (prefers-reduced-motion: reduce) { .scroll-cue::after { animation: none; } }
+
+/* Hero-відео зʼявляється, коли реально грає (постер-картинка під ним — LCP) */
+.hero-video { opacity: 0; transition: opacity 0.8s var(--ease-soft); }
+.hero-video.is-playing { opacity: 1; }
+
+/* Роботи: середня колонка зміщена вниз на десктопі — редакційний ритм */
+@media (min-width: 1024px) {
+  .works-offset > li:nth-child(3n + 2) > * { transform: translateY(72px); }
+  .works-offset { padding-bottom: 72px; }
+}
+
+.min-h-hero { min-height: 100vh; min-height: 100svh; }
+
+/* Стрічка відео (як Reels): горизонтальний скрол зі snap до країв екрана; на десктопі — сітка */
+.media-rail {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  margin-left: calc(-1 * max(20px, var(--safe-l)));
+  margin-right: calc(-1 * max(20px, var(--safe-r)));
+  padding-left: max(20px, var(--safe-l));
+  padding-right: max(20px, var(--safe-r));
+  scroll-padding-left: max(20px, var(--safe-l));
+}
+.media-rail::-webkit-scrollbar { display: none; }
+.media-rail > * { scroll-snap-align: start; flex-shrink: 0; }
+@media (min-width: 768px) {
+  .media-rail { gap: 20px; margin-left: calc(-1 * max(40px, var(--safe-l))); margin-right: calc(-1 * max(40px, var(--safe-r))); padding-left: max(40px, var(--safe-l)); padding-right: max(40px, var(--safe-r)); scroll-padding-left: max(40px, var(--safe-l)); }
+}
+@media (min-width: 1024px) {
+  .media-rail { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 0; padding: 0; overflow: visible; }
+  .media-rail > :nth-child(2) > * { transform: translateY(48px); }
+}

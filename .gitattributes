@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.mov binary
+*.woff binary
+*.woff2 binary
+
+# Згенеровані файли — без diff-шуму в PR
+package-lock.json linguist-generated=true -diff
+src/data/media.gen.json linguist-generated=true
+src/data/brand.gen.json linguist-generated=true

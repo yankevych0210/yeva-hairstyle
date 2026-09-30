@@ -12,18 +12,20 @@ interface PhotoProps {
   tone?: Tone
   className?: string
   imgClassName?: string
+  /** span — для використання всередині тексту (<p>) */
+  as?: 'div' | 'span'
 }
 
-export function Photo({ name, alt, sizes, aspect, priority, tone, className = '', imgClassName = '' }: PhotoProps) {
+export function Photo({ name, alt, sizes, aspect, priority, tone, className = '', imgClassName = '', as: Tag = 'div' }: PhotoProps) {
   const img = getImage(name)
   const ratio = aspect ?? (img ? `${img.width} / ${img.height}` : '4 / 5')
 
   return (
-    <div className={`relative overflow-hidden bg-sand ${className}`} style={{ aspectRatio: ratio }}>
+    <Tag className={`relative block overflow-hidden bg-sand ${className}`} style={{ aspectRatio: ratio }}>
       {img ? (
         <img
           src={imageSrc(img.name, 960)}
-          srcSet={imageSrcSet(img.name)}
+          srcSet={imageSrcSet(img)}
           sizes={sizes}
           width={img.width}
           height={img.height}
@@ -41,6 +43,6 @@ export function Photo({ name, alt, sizes, aspect, priority, tone, className = ''
           className={`absolute inset-0 h-full w-full ${imgClassName}`}
         />
       )}
-    </div>
+    </Tag>
   )
 }

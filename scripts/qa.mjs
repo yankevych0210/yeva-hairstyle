@@ -35,8 +35,9 @@ for (const vp of VIEWPORTS.filter((v) => !only || only.includes(v.name))) {
 
   // Скролимо спокійно донизу, щоб спрацював reveal
   await page.evaluate(async () => {
+    // behavior: 'instant' — інакше CSS scroll-behavior: smooth «гальмує» тест
     for (let y = 0; y < document.documentElement.scrollHeight; y += 120) {
-      window.scrollTo(0, y)
+      window.scrollTo({ top: y, behavior: 'instant' })
       await new Promise((r) => setTimeout(r, 40))
     }
     await new Promise((r) => setTimeout(r, 900))
@@ -61,6 +62,7 @@ for (const vp of VIEWPORTS.filter((v) => !only || only.includes(v.name))) {
         h1: cs('h1'),
       },
       hidden: [...document.querySelectorAll('[data-reveal]:not(.is-in)')].length,
+      hiddenInfo: `y=${Math.round(scrollY)} of ${document.documentElement.scrollHeight}; ` + [...document.querySelectorAll('[data-reveal]:not(.is-in)')].slice(0, 2).map((e) => e.tagName + '@' + Math.round(e.getBoundingClientRect().top)).join(', '),
       brokenImgs: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src),
       h1: document.querySelectorAll('h1').length,
       smallTargets: [...document.querySelectorAll('a, button')]
@@ -73,7 +75,7 @@ for (const vp of VIEWPORTS.filter((v) => !only || only.includes(v.name))) {
   })
   if (info.scrollW > info.innerW) problems.push(`horizontal scroll: ${info.scrollW} > ${info.innerW} ${info.wide.join(' | ')}`)
   if (!info.fonts.sans || !info.fonts.serif) problems.push(`fonts not loaded: ${JSON.stringify(info.fonts)}`)
-  if (info.hidden) problems.push(`${info.hidden} reveal elements still hidden`)
+  if (info.hidden) problems.push(`${info.hidden} reveal elements still hidden (${info.hiddenInfo})`)
   if (info.brokenImgs.length) problems.push(`broken images: ${info.brokenImgs.join(', ')}`)
   if (info.h1 !== 1) problems.push(`h1 count = ${info.h1}`)
   if (info.smallTargets.length) problems.push(`tap targets < 44px: ${info.smallTargets.join('; ')}`)
@@ -81,7 +83,7 @@ for (const vp of VIEWPORTS.filter((v) => !only || only.includes(v.name))) {
   await page.screenshot({ path: `${OUT}/${vp.name}-full.png`, fullPage: true })
 
   // Інтерактив
-  await page.evaluate(() => window.scrollTo(0, 0))
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
   await new Promise((r) => setTimeout(r, 300))
   await page.screenshot({ path: `${OUT}/${vp.name}-top.png` })
   if (vp.width < 1024) {

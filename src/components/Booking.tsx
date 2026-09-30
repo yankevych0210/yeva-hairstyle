@@ -5,10 +5,10 @@ import { SectionHeading } from './SectionHeading'
 
 export function Booking() {
   return (
-    <section id="booking" aria-labelledby="booking-title" className="section on-dark relative overflow-hidden bg-dark text-on-dark">
+    <section id="booking" aria-labelledby="booking-title" className="section on-dark grain relative overflow-hidden bg-dark text-on-dark">
       <div className="container-page grid gap-14 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-7">
-          <SectionHeading id="booking-title" eyebrow="Запис">
+          <SectionHeading id="booking-title" eyebrow="(05) Запис">
             Як <em>записатися</em>
           </SectionHeading>
 
