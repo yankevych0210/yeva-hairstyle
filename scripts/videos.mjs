@@ -23,7 +23,9 @@ const ffprobe = (file) => {
   }
   const [, w, h] = out.match(/Video:.*?(\d{2,5})x(\d{2,5})/) ?? []
   const [, hh, mm, ss] = out.match(/Duration: (\d+):(\d+):([\d.]+)/) ?? []
-  const created = out.match(/creation_time\s*:\s*(\d{4}-\d{2}-\d{2})/)?.[1] ?? null
+  // Повна мітка з часовим поясом: 2026-09-27T16:34:20.000000Z → 2026-09-27T16:34:20Z
+  const ct = out.match(/creation_time\s*:\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})[.\d]*Z/)?.[1]
+  const created = ct ? `${ct}Z` : null
   const rotate = Number(out.match(/rotation of (-?[\d.]+)/)?.[1] ?? out.match(/rotate\s*:\s*(-?\d+)/)?.[1] ?? 0)
   let width = Number(w)
   let height = Number(h)
@@ -72,8 +74,9 @@ for (const file of files) {
     hevc,
     h264,
     poster,
-    // Дата зйомки з метаданих, інакше — дата файлу
-    uploadDate: src.created ?? (await stat(input)).mtime.toISOString().slice(0, 10),
+    // Дата зйомки з метаданих, інакше — дата файлу (ISO 8601 з часовим поясом — вимога Google).
+    // Для відео з Instagram краще вписати час публікації посту вручну
+    uploadDate: src.created ?? (await stat(input)).mtime.toISOString().replace(/\.\d+Z$/, 'Z'),
   }
   console.log(`✓ ${name} ${out.width}×${out.height}, ${out.duration.toFixed(1)} с`)
 }

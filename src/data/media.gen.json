@@ -97,7 +97,7 @@
       "hevc": "high-bun-hevc.mp4",
       "h264": "high-bun-h264.mp4",
       "poster": "high-bun-poster",
-      "uploadDate": "2026-09-03"
+      "uploadDate": "2026-09-03T18:53:15+00:00"
     },
     "trench": {
       "width": 1080,
@@ -106,7 +106,7 @@
       "hevc": "trench-hevc.mp4",
       "h264": "trench-h264.mp4",
       "poster": "trench-poster",
-      "uploadDate": "2026-09-27"
+      "uploadDate": "2026-09-28T09:24:35+00:00"
     },
     "duo-ponytail": {
       "width": 720,
@@ -115,7 +115,7 @@
       "hevc": "duo-ponytail-hevc.mp4",
       "h264": "duo-ponytail-h264.mp4",
       "poster": "duo-ponytail-poster",
-      "uploadDate": "2026-09-02"
+      "uploadDate": "2026-09-02T18:25:52+00:00"
     },
     "transformation": {
       "width": 720,
@@ -124,7 +124,7 @@
       "hevc": "transformation-hevc.mp4",
       "h264": "transformation-h264.mp4",
       "poster": "transformation-poster",
-      "uploadDate": "2026-08-07"
+      "uploadDate": "2026-08-07T09:04:19+00:00"
     }
   }
 }

@@ -9,6 +9,9 @@ import type { MediaManifest } from '../types.ts'
 const m = manifest as MediaManifest
 const abs = (p: string) => new URL(p, siteUrl).toString()
 
+/** Google вимагає дату з часом і часовим поясом (ISO 8601). Лише дата → полудень за Києвом */
+const isoDateTime = (d: string) => (/^\d{4}-\d{2}-\d{2}$/.test(d) ? `${d}T12:00:00+03:00` : d)
+
 export function buildJsonLd() {
   const enabled = services.filter((s) => s.enabled)
   const prices = enabled.map((s) => s.priceFrom).filter((p): p is number => p !== null)
@@ -86,7 +89,7 @@ export function buildJsonLd() {
         description: [w.alt, w.credit].filter(Boolean).join('. '),
         thumbnailUrl: abs(`/images/${v.poster}-960.webp`),
         contentUrl: abs(`/videos/${v.h264}`),
-        uploadDate: v.uploadDate,
+        uploadDate: isoDateTime(v.uploadDate),
         duration: `PT${Math.round(v.duration)}S`,
         width: v.width,
         height: v.height,
