@@ -12,7 +12,7 @@
   "author": "SetBox",
   "type": "module",
   "engines": {
-    "node": ">=20.19"
+    "node": "22.x"
   },
   "scripts": {
     "dev": "vite",
