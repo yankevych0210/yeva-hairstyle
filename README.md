@@ -47,7 +47,7 @@ npm run dev        # http://localhost:5173
 | `npm run videos` | `assets/originals/video/*` → `public/videos/<name>-hevc.mp4` + `-h264.mp4` (1080p, 30 fps, faststart) |
 | `npm run showreel` | Builds the hero showreel from video fragments listed in `scripts/showreel.mjs` |
 | `npm run brand` | Regenerates the logo, favicons, app icons and avatar in `assets/brand/` and `public/` |
-| `npm run og` | Regenerates the Open Graph image `public/og-image.jpg` (1200×630) |
+| `npm run og` | Regenerates the Open Graph image `public/og.jpg` (1200×630) |
 | `npm run qa` | Screenshots + checks in Chrome at 320–1440 px and landscape (needs a running `serve` or `preview`) |
 | `npm run qa:webkit` | Safari/iPhone checks in WebKit: scroll lock, lightbox, HEVC video |
 

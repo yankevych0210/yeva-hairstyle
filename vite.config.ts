@@ -35,6 +35,8 @@ function seoPlugin(): Plugin {
         .replaceAll('%THEME_COLOR%', seo.themeColor)
         .replaceAll('%SITE_NAME%', esc(brand.name))
         .replaceAll('%OG_ALT%', esc(seo.ogImageAlt))
+        .replaceAll('%OG_TITLE%', esc(seo.social.title))
+        .replaceAll('%OG_DESCRIPTION%', esc(seo.social.description))
         .replace('<!--font-preload-->', fontPreload)
         .replace(
           '<!--verification-->',

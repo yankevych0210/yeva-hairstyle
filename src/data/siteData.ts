@@ -43,10 +43,17 @@ export const seo = {
   // ≤ 160 символів
   description:
     'Зачіски, укладання, хвилі й локони в Кременчуці. Образи в 4 руки з візажисткою. Стилістка по волоссю Єва (@yeva.hairstyle) — запис у Direct.',
-  ogImageAlt: 'Yeva Hairstyle — зачіски та укладання в Кременчуці',
+  // Прев'ю посилань (Telegram, WhatsApp, Viber, Facebook, X). Назву сайту месенджери показують
+  // окремим рядком (og:site_name), тож у заголовку бренд не повторюємо
+  social: {
+    title: 'Єва — стилістка по волоссю в Кременчуці',
+    description: 'Хвилі, локони, зібрані зачіски й образи в 4 руки з візажисткою. Роботи, послуги та запис у Direct 💌',
+  },
+  ogImageAlt: 'Роботи Єви: хвилі на довгому волоссі — Yeva Hairstyle, Кременчук',
   // Колір панелі браузера = темний перший екран
   themeColor: '#1B1816',
-  ogImage: '/og-image.jpg',
+  // Нове ім'я файлу = нове прев'ю: месенджери кешують картинку за адресою (npm run og)
+  ogImage: '/og.jpg',
   locale: 'uk_UA',
   // Коди верифікації (Google Search Console → «Тег HTML», Bing Webmaster Tools). null — тег не додається
   verification: { google: null as string | null, bing: null as string | null },

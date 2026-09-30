@@ -58,7 +58,9 @@ Shows the latest posts from the Behold feed (`beholdFeedUrl`). The number of pos
 ## Brand, favicons, social image
 
 - Logo, mark, favicons and app icons: `npm run brand` (outputs in `assets/brand/` and `public/`). `assets/brand/avatar-1080.png` is ready for the Instagram/Telegram avatar.
-- Social preview (`public/og-image.jpg`): `npm run og` — uses the photo named in `scripts/og.mjs` (`OG_IMAGE=name npm run og` to pick another one).
+- Link preview image (`public/og.jpg`, 1200×630): `npm run og`. Photos in the arches: `OG_PHOTOS="waves,half-up-waves-1" npm run og`.
+- Preview title and description (Telegram, WhatsApp, Viber, Facebook, X): `seo.social` in `siteData.ts`.
+- Messengers cache previews. After changing the image, give it a new file name (`OG_OUT=public/og-2.jpg npm run og` and update `seo.ogImage`), then refresh the cache: Telegram — send the link to [@WebpageBot](https://t.me/WebpageBot); Facebook/WhatsApp — [Sharing Debugger](https://developers.facebook.com/tools/debug/) → Scrape Again.
 
 ## Domain
 
