@@ -1,0 +1,212 @@
+/* Шрифти: self-hosted через Fontsource, кожен файл містить cyrillic + latin із unicode-range */
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/manrope/wght.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Палітра «Кремовий шовк» (RGB-канали, щоб працювала прозорість Tailwind) */
+  --c-bg: 246 240 232;        /* #F6F0E8 крем */
+  --c-surface: 239 230 218;   /* #EFE6DA */
+  --c-sand: 228 214 198;      /* #E4D6C6 пісок */
+  --c-line: 216 200 182;      /* #D8C8B6 */
+  --c-ink: 42 37 33;          /* #2A2521 теплий графіт */
+  --c-ink-soft: 94 83 74;     /* #5E534A — AA на крему */
+  --c-accent: 156 107 94;     /* #9C6B5E теракота-троянда: кнопки, лінії, великі елементи */
+  --c-accent-ink: 131 87 75;  /* #83574B — акцент для дрібного тексту (AA) */
+  --c-dark: 34 30 27;         /* #221E1B темні секції */
+  --c-on-dark: 243 235 225;   /* #F3EBE1 */
+  --c-on-dark-soft: 191 179 166; /* #BFB3A6 */
+
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 28px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --header-h: 64px;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+
+  color-scheme: light;
+}
+
+@media (min-width: 1024px) {
+  :root { --header-h: 76px; }
+}
+
+@layer base {
+  html {
+    overflow-x: clip;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + var(--safe-t) + 8px);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    overflow-x: clip;
+    font-size: 16px;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+  a, button, [role='button'], summary, label { touch-action: manipulation; }
+  button { -webkit-user-select: none; user-select: none; }
+  img, video { max-width: 100%; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: rgb(var(--c-accent) / 0.25); }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-accent-ink));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  .on-dark :focus-visible { outline-color: rgb(var(--c-on-dark)); }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-page;
+    padding-left: max(20px, var(--safe-l));
+    padding-right: max(20px, var(--safe-r));
+  }
+  @media (min-width: 768px) {
+    .container-page { padding-left: max(40px, var(--safe-l)); padding-right: max(40px, var(--safe-r)); }
+  }
+
+  .section { @apply py-20 md:py-28 lg:py-32; }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-accent-ink;
+  }
+  .eyebrow::before {
+    content: '';
+    @apply block h-px w-8 bg-accent;
+  }
+  .on-dark .eyebrow { @apply text-on-dark-soft; }
+  .on-dark .eyebrow::before { @apply bg-on-dark-soft; }
+
+  .h2 {
+    @apply font-serif text-[2.35rem] font-medium leading-[1.05] tracking-[-0.01em] xs:text-[2.6rem] md:text-[3.4rem] lg:text-[4rem];
+  }
+  .h2 em { @apply font-medium italic text-accent-ink; }
+  .on-dark .h2 em { @apply text-sand; }
+
+  .lead { @apply text-[1.0625rem] leading-[1.7] text-ink-soft md:text-lg; }
+
+  /* Кнопки: мін. 48px висоти, активний стан для тапу, hover — лише для миші (hoverOnlyWhenSupported) */
+  .btn {
+    @apply relative inline-flex min-h-[48px] items-center justify-center gap-2.5 rounded-full px-6 text-[0.9375rem] font-semibold tracking-[0.01em];
+    transition: background-color 0.3s var(--ease-soft), color 0.3s var(--ease-soft), border-color 0.3s var(--ease-soft), transform 0.2s var(--ease-out);
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { @apply bg-ink text-bg hover:bg-accent-ink; }
+  .btn-accent { @apply bg-accent-ink text-bg hover:bg-ink; }
+  .btn-ghost { @apply border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-bg; }
+  .on-dark .btn-primary { @apply bg-on-dark text-dark hover:bg-sand; }
+  .on-dark .btn-ghost { @apply border-on-dark/30 text-on-dark hover:border-on-dark hover:bg-on-dark hover:text-dark; }
+
+  .chip {
+    @apply inline-flex min-h-[44px] shrink-0 items-center rounded-full border border-ink/15 px-5 text-sm font-semibold text-ink-soft;
+    transition: background-color 0.25s var(--ease-soft), color 0.25s var(--ease-soft), border-color 0.25s var(--ease-soft);
+  }
+  .chip:hover { @apply border-ink/40 text-ink; }
+  .chip[aria-pressed='true'] { @apply border-ink bg-ink text-bg; }
+  .chip:active { transform: scale(0.97); }
+
+  .skip-link {
+    @apply fixed left-4 z-[100] -translate-y-[200%] rounded-full bg-ink px-5 py-3 text-sm font-semibold text-bg;
+    top: calc(12px + var(--safe-t));
+    transition: transform 0.2s var(--ease-out);
+  }
+  .skip-link:focus { @apply translate-y-0; }
+}
+
+/* ============ Scroll-reveal ============
+   Прихований стан лише коли є клас .js на <html> (інакше контент видно без JS).
+   Спокійний скрол: повний підйом. Швидкий свайп: .reveal-fast — коротше, без затримок. */
+[data-reveal] { --reveal-y: 32px; --reveal-dur: 580ms; --reveal-delay: 0ms; }
+@media (min-width: 1024px) { [data-reveal] { --reveal-y: 44px; --reveal-dur: 660ms; } }
+
+html.js [data-reveal]:not(.is-in) { opacity: 0; transform: translate3d(0, var(--reveal-y), 0); }
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity calc(var(--reveal-dur) * 0.9) var(--ease-soft) var(--reveal-delay),
+              transform var(--reveal-dur) var(--ease-out) var(--reveal-delay);
+}
+html.js [data-reveal].is-in.reveal-fast { --reveal-dur: 440ms; --reveal-delay: 0ms !important; }
+
+/* Stagger по колонках сітки: 2 колонки на мобільному, 3 на десктопі */
+.stagger-2 > [data-reveal]:nth-child(2n) { --reveal-delay: 90ms; }
+@media (min-width: 1024px) {
+  .stagger-3 > [data-reveal]:nth-child(n) { --reveal-delay: 0ms; }
+  .stagger-3 > [data-reveal]:nth-child(3n + 2) { --reveal-delay: 90ms; }
+  .stagger-3 > [data-reveal]:nth-child(3n) { --reveal-delay: 180ms; }
+}
+@media (min-width: 768px) {
+  .stagger-md-2 > [data-reveal]:nth-child(2n) { --reveal-delay: 90ms; }
+}
+
+/* ============ Hero: CSS-анімація при завантаженні, не залежить від JS ============ */
+@keyframes hero-rise { from { opacity: 0; transform: translate3d(0, 26px, 0); } to { opacity: 1; transform: none; } }
+@keyframes hero-img { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+.hero-in { animation: hero-rise 900ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
+.hero-img-in { animation: hero-img 1400ms var(--ease-out) both; animation-delay: 120ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.js [data-reveal]:not(.is-in) { opacity: 1; transform: none; }
+  html.js [data-reveal].is-in { transition: none; }
+  .hero-in, .hero-img-in { animation: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
+
+/* Горизонтальна стрічка чипів на мобільному: snap + вихід до країв екрана */
+.chip-rail {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  margin-left: calc(-1 * max(20px, var(--safe-l)));
+  margin-right: calc(-1 * max(20px, var(--safe-r)));
+  padding-left: max(20px, var(--safe-l));
+  padding-right: max(20px, var(--safe-r));
+  scroll-padding-left: max(20px, var(--safe-l));
+}
+.chip-rail::-webkit-scrollbar { display: none; }
+.chip-rail > * { scroll-snap-align: start; }
+@media (min-width: 768px) {
+  .chip-rail { margin: 0; padding: 0; flex-wrap: wrap; overflow: visible; }
+}
+
+.min-h-screen-d { min-height: 100vh; min-height: 100dvh; }
+.h-screen-d { height: 100vh; height: 100dvh; }
+
+@keyframes marquee { to { transform: translate3d(-33.333%, 0, 0); } }
+.marquee { animation: marquee 38s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .marquee { animation: none; } }
+
+@media (min-width: 768px) {
+  .stagger-md-3 > [data-reveal]:nth-child(3n + 2) { --reveal-delay: 90ms; }
+  .stagger-md-3 > [data-reveal]:nth-child(3n) { --reveal-delay: 180ms; }
+}
+@media (min-width: 1024px) {
+  .stagger-4 > [data-reveal]:nth-child(n) { --reveal-delay: 0ms; }
+  .stagger-4 > [data-reveal]:nth-child(4n + 2) { --reveal-delay: 80ms; }
+  .stagger-4 > [data-reveal]:nth-child(4n + 3) { --reveal-delay: 160ms; }
+  .stagger-4 > [data-reveal]:nth-child(4n) { --reveal-delay: 240ms; }
+}
+
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }

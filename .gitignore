@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vercel
+# Оригінали відео важкі (GitHub не приймає >100 МБ)
+assets/originals/video/*
+!assets/originals/video/.gitkeep
+qa/

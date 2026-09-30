@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script>
+      // Прихований стан reveal-анімацій лише з JS. Якщо застосунок не стартував за 3 с — показуємо все.
+      document.documentElement.classList.add('js');
+      setTimeout(function () { if (!window.__revealReady) document.documentElement.classList.remove('js'); }, 3000);
+    </script>
+    <title>%TITLE%</title>
+    <meta name="description" content="%DESCRIPTION%" />
+    <link rel="canonical" href="%SITE_URL%/" />
+    <meta name="theme-color" content="%THEME_COLOR%" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:site_name" content="%SITE_NAME%" />
+    <meta property="og:title" content="%TITLE%" />
+    <meta property="og:description" content="%DESCRIPTION%" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:image" content="%OG_IMAGE%" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Yeva Hairstyle — зачіски та укладання, Кременчук" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="%TITLE%" />
+    <meta name="twitter:description" content="%DESCRIPTION%" />
+    <meta name="twitter:image" content="%OG_IMAGE%" />
+
+    <!--hero-preload-->
+    <!--json-ld-->
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
