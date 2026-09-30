@@ -11,9 +11,6 @@
   "license": "SEE LICENSE IN LICENSE",
   "author": "SetBox",
   "type": "module",
-  "engines": {
-    "node": "22.x"
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",

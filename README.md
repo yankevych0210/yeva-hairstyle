@@ -27,7 +27,7 @@ A mobile-first, single-page site in Ukrainian. The page is pre-rendered to stati
 
 ## Getting started
 
-Requires **Node.js 22** (see `.nvmrc`; Vercel builds with 22.x from `engines`).
+Requires **Node.js 24** (see `.nvmrc`). Node 22 works too. On Vercel the version is set in **Project Settings → Node.js Version** (24.x).
 
 ```bash
 npm install
