@@ -1,0 +1,4 @@
+/* Шрифти сторінки 404 (стилі — інлайн у 404.html, щоб сторінка мала вигляд навіть без збірки/сервера) */
+@import '@fontsource/cormorant-garamond/500.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/manrope/wght.css';
