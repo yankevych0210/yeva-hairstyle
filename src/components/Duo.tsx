@@ -48,6 +48,7 @@ export function Duo() {
                 work={w}
                 label={w.credit?.split(' · ').find((c) => c.startsWith('Макіяж')) ?? ''}
                 duoBadge={false}
+                playCenter
                 sizes="(min-width: 1024px) 22vw, 68vw"
                 aspect="9 / 16"
                 className="arch-9x16"

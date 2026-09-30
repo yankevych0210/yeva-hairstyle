@@ -103,20 +103,32 @@ for (const vp of VIEWPORTS.filter((v) => !only || only.includes(v.name))) {
     if (pressed !== 1) problems.push('filter aria-pressed broken')
     await chips[0].click()
   }
-  const y0 = await page.evaluate(() => {
-    document.querySelector('#works')?.scrollIntoView({ behavior: 'instant' })
-    const y = window.scrollY
-    document.querySelector('#works li button')?.click()
-    return y
-  })
-  await new Promise((r) => setTimeout(r, 500))
-  await page.screenshot({ path: `${OUT}/${vp.name}-lightbox.png` })
-  await page.keyboard.press('Escape')
-  await new Promise((r) => setTimeout(r, 300))
-  const y1 = await page.evaluate(() => window.scrollY)
-  if (Math.abs(y1 - y0) > 2) problems.push(`scroll position not restored after lightbox: ${y0} → ${y1}`)
-  const focusBack = await page.evaluate(() => document.activeElement?.closest('#works li') !== null)
-  if (!focusBack) problems.push('focus not returned after lightbox')
+  // Лайтбокс з кожної секції з роботами: відкривається, він — верхній шар, скрол і фокус повертаються
+  for (const section of ['works', 'duo']) {
+    const exists = await page.$(`#${section} li button`)
+    if (!exists) continue
+    const y0 = await page.evaluate((id) => {
+      document.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'instant' })
+      const y = window.scrollY
+      document.querySelector(`#${id} li button`)?.click()
+      return y
+    }, section)
+    await new Promise((r) => setTimeout(r, 500))
+    const top = await page.evaluate(() => {
+      const d = document.querySelector('[role="dialog"][aria-modal]:not(#mobile-menu)')
+      if (!d) return 'not open'
+      const el = document.elementFromPoint(innerWidth / 2, innerHeight / 2)
+      return d.contains(el) ? 'ok' : `covered by ${el?.tagName}.${String(el?.className).slice(0, 40)}`
+    })
+    if (top !== 'ok') problems.push(`lightbox from #${section}: ${top}`)
+    await page.screenshot({ path: `${OUT}/${vp.name}-lightbox-${section}.png` })
+    await page.keyboard.press('Escape')
+    await new Promise((r) => setTimeout(r, 300))
+    const y1 = await page.evaluate(() => window.scrollY)
+    if (Math.abs(y1 - y0) > 2) problems.push(`#${section}: scroll not restored after lightbox: ${y0} → ${y1}`)
+    const focusBack = await page.evaluate((id) => document.activeElement?.closest(`#${id} li`) !== null, section)
+    if (!focusBack) problems.push(`#${section}: focus not returned after lightbox`)
+  }
 
   console.log(`${problems.length ? '✗' : '✓'} ${vp.name}  fonts: body=${info.fonts.body.split(',')[0]} h1=${info.fonts.h1.split(',')[0]}`)
   problems.forEach((p) => console.log('   - ' + p))

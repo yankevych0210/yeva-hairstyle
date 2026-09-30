@@ -13,10 +13,12 @@ interface Props {
   onOpen: (e: MouseEvent<HTMLElement>) => void
   /** Бейдж «4 руки» (у стрічці «Образ у 4 руки» зайвий) */
   duoBadge?: boolean
+  /** Кнопка play по центру — для арок, де кут заокруглений і обрізав би іконку */
+  playCenter?: boolean
 }
 
 /** Плитка роботи: кнопка, що відкриває лайтбокс */
-export function WorkTile({ work, label, sizes, aspect = '4 / 5', className = '', onOpen, duoBadge = true }: Props) {
+export function WorkTile({ work, label, sizes, aspect = '4 / 5', className = '', onOpen, duoBadge = true, playCenter = false }: Props) {
   const isVideo = work.kind === 'video'
   const poster = isVideo ? getVideo(work.media)?.poster : work.media
   return (
@@ -44,7 +46,12 @@ export function WorkTile({ work, label, sizes, aspect = '4 / 5', className = '',
         )}
         <span className="mt-1 block font-serif text-lg leading-tight md:text-[1.6rem]">{work.title}</span>
       </span>
-      {isVideo && (
+      {isVideo && playCenter && (
+        <span className="absolute left-1/2 top-[42%] flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/50 bg-white/15 text-white backdrop-blur-md transition-[transform,background-color] duration-500 group-hover:scale-110 group-hover:bg-white/25 md:h-[4.5rem] md:w-[4.5rem]">
+          <Play size={22} fill="currentColor" aria-hidden="true" className="translate-x-0.5" />
+        </span>
+      )}
+      {isVideo && !playCenter && (
         <span className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-ink backdrop-blur transition-transform duration-500 group-hover:scale-110 md:right-4 md:top-4 md:h-12 md:w-12">
           <Play size={16} fill="currentColor" aria-hidden="true" className="translate-x-px" />
         </span>

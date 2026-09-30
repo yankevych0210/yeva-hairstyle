@@ -1,4 +1,5 @@
 import { useRef, type KeyboardEvent, type RefObject, type TouchEvent } from 'react'
+import { createPortal } from 'react-dom'
 import { ArrowUpRight, ChevronLeft, ChevronRight, Volume2, X } from 'lucide-react'
 import { contacts } from '../data/siteData'
 import { getImage, getVideo, imageSrc, imageSrcSet } from '../lib/media'
@@ -53,7 +54,9 @@ export function Lightbox({ items, index, videoRef, triggerRef, soundBlocked, onU
   const image = video ? null : getImage(work.media)
   const vertical = video ? video.height >= video.width : true
 
-  return (
+  // Портал у <body>: інакше лайтбокс опиняється в stacking context секції (isolation/z-index)
+  // і секції нижче перекривають його
+  return createPortal(
     <div
       ref={ref}
       role="dialog"
@@ -217,6 +220,7 @@ export function Lightbox({ items, index, videoRef, triggerRef, soundBlocked, onU
           <ArrowUpRight size={18} aria-hidden="true" />
         </a>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

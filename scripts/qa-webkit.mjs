@@ -69,11 +69,28 @@ for (const name of ['iPhone 13', 'iPhone 13 landscape', 'iPhone SE']) {
   const info = await page.evaluate(() => {
     const d = document.querySelector('[role="dialog"][aria-modal]:not(#mobile-menu)')
     const r = d?.querySelector('.btn-primary')?.getBoundingClientRect()
-    return { open: !!d, ctaVisible: r ? r.bottom <= innerHeight && r.top >= 0 : false }
+    const el = document.elementFromPoint(innerWidth / 2, innerHeight / 2)
+    return { open: !!d && d.contains(el), ctaVisible: r ? r.bottom <= innerHeight && r.top >= 0 : false }
   })
   if (!info.open) problems.push('lightbox not open')
   if (!info.ctaVisible) problems.push('lightbox CTA not visible without scroll')
   await page.screenshot({ path: `${OUT}/webkit-${name}-lightbox.png` })
+
+  // «Образ у 4 руки»: відео з арки відкривається поверх усього й грає
+  await page.keyboard.press('Escape')
+  await page.waitForTimeout(300)
+  await page.locator('#duo').scrollIntoViewIfNeeded()
+  await page.locator('#duo li button').first().tap()
+  await page.waitForTimeout(1500)
+  const duo = await page.evaluate(() => {
+    const d = document.querySelector('[role="dialog"][aria-modal]:not(#mobile-menu)')
+    const v = d?.querySelector('video')
+    const el = document.elementFromPoint(innerWidth / 2, innerHeight / 2)
+    return { top: !!d && d.contains(el), playing: v ? !v.paused : false }
+  })
+  if (!duo.top) problems.push('duo lightbox covered or not open')
+  if (!duo.playing) problems.push('duo video not playing')
+  await page.screenshot({ path: `${OUT}/webkit-${name}-duo.png` })
 
   console.log(`${problems.length ? '✗' : '✓'} WebKit ${name}`)
   problems.forEach((p) => console.log('   - ' + p))
